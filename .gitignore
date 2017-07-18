@@ -1,0 +1,6 @@
+node_modules
+*.log
+.DS_Store
+.idea/
+notebook-win32-x64/
+app/dist
