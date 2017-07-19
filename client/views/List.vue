@@ -1,10 +1,11 @@
 <template>
   <div class="page">
+    <div class="title">{{$route.params.type == 1?'进行中项目':'已完结项目'}}</div>
     <div class="search">
-      <el-input placeholder="项目名称..." v-model="page.filter.name">
+      <el-input placeholder="项目名称..." v-model="page.name">
         <template slot="prepend">项目名称：</template>
       </el-input>
-      <el-input placeholder="项目负责人..." v-model="page.filter.principal">
+      <el-input placeholder="项目负责人..." v-model="page.principal">
         <template slot="prepend">项目负责人：</template>
       </el-input>
       <el-date-picker v-model="page.date" type="daterange" range-separator=" 至 " placeholder="项目开始时间..."/>
@@ -42,7 +43,7 @@
     data () {
       return {
         list: [],
-        page: {filter: {},date:[], page: 1, size: 20, all: 0}
+        page: {name: '',principal:'',date:[], page: 1, size: 10, all: 0}
       }
     },
     components: {},
@@ -60,7 +61,19 @@
       },
       findList () {
         this.page.all = projectDB.size().value();
-        this.list = projectDB.value();
+        const param = {type:this.$route.params.type*1};
+        this.page.name ? param.name = this.page.name : '';
+        this.page.principal ? param.principal = this.page.principal : '';
+        this.page.start = (this.page.page-1)*this.page.size;
+        this.page.end = this.page.page*this.page.size>=this.page.all?this.page.all:this.page.page*this.page.size;
+        const data = projectDB.filter(({startTime})=>{
+          if(this.page.date && this.page.date.length > 0){
+              return startTime >= this.page.date[0] && startTime <= this.page.date[1]
+          }
+          return true
+        }).filter(param).slice(this.page.start,this.page.end).orderBy(['startTime', 'id'], ['desc', 'asc']).value()
+        this.list = [...data];
+        console.log(param)
         console.log(this.page)
         console.log(this.list)
       },
@@ -76,13 +89,13 @@
         })
       },
       handleChange (filed,value,{id,name}) {
-        this.$confirm(`确认${filed==='del'?'删除':'完结'}项目【${project.name}】？`, '提示', {
+        this.$confirm(`确认${filed==='del'?'删除':'完结'}项目【${name}】？`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
             if(filed === 'del'){
-              projectDB.remove({name:project.name}).write()
+              projectDB.remove({name}).write()
             }else{
               projectDB.getById(id).assign({[filed]:value}).write()
             }
@@ -92,7 +105,7 @@
     },
     beforeRouteUpdate (to, from, next) {
       next()
-      this.page = {filter: {},date:[], page: 1, size: 20, all: 0}
+      this.page = {name: '',principal:'',date:[], page: 1, size: 10, all: 0}
       this.findList()
     },
     created () {
@@ -104,14 +117,14 @@
 <style>
   .search{
     text-align:left;padding:5px;
-    .el-input-group{
-      width: 200px;
-      .el-input-group__prepend{color: #111}
-    }
+  .el-input-group{
+    width: 250px;
+  .el-input-group__prepend{color: #111}
+  }
   }
   .my-pagination{padding: 5px;text-align: center}
   .el-table {
     width: 100%;
-    th,td {text-align: center !important;}
+  th,td {text-align: center !important;}
   }
 </style>

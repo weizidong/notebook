@@ -51,7 +51,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             projectDB.insert(this.project).write()
-            this.$confirm(`项目【${this.project.name}】已经添加成功！`, '提示', {
+            this.$alert(`项目【${this.project.name}】已经添加成功！`, '提示', {
               confirmButtonText: '确定',
               type: 'success'
             }).then(() => this.project = {...def,files: []})
