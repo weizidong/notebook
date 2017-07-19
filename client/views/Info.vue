@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="title">新增项目</div>
+    <div class="title">项目详情</div>
     <el-form :model="project" :rules="rules" ref="project" label-width="120px">
       <el-form-item label="项目名称：" prop="name">
         <el-input v-model="project.name"/>
@@ -22,8 +22,7 @@
         </el-upload>
       </el-form-item>
       <div style="text-align: center">
-        <el-button type="primary" @click="submitForm('project')">新增</el-button>
-        <el-button @click="resetForm('project')">重置</el-button>
+        <el-button type="primary" @click="submitForm('project')">修改</el-button>
       </div>
     </el-form>
   </div>
@@ -33,11 +32,10 @@
   import moment from 'moment'
   import {writeFile} from '../utils'
   import {projectDB} from '../db'
-  const def = {name: '', principal: '', startTime: '', amount: '', files: [], receipt: 0, type: 1, outlay: 0,del:0};
   export default {
     data() {
       return {
-        project: {...def},
+        project: {},
         rules: {
           name: [{required: true, message: '请输入项目名称...', trigger: 'blur'}],
           principal: [{required: true, message: '请输入项目负责人...', trigger: 'blur'}],
@@ -51,7 +49,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             projectDB.insert(this.project).write()
-            this.$confirm(`项目【${this.project.name}】已经添加成功！`, '提示', {
+            this.$alert(`项目【${this.project.name}】已经添加成功！`, '提示', {
               confirmButtonText: '确定',
               type: 'success'
             }).then(() => this.project = {...def,files: []})
@@ -59,9 +57,6 @@
             return false;
           }
         });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
       },
       handleRemove(file, fileList) {
         this.project.files = fileList
@@ -73,10 +68,9 @@
         onSuccess(res)
         this.project.files.push(res)
       }
+    },
+    created () {
+      this.project = projectDB.find({id:this.$route.params.id}).value()
     }
   }
 </script>
-
-<style>
-  .title {text-align: center;padding: 2rem;}
-</style>

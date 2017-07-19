@@ -76,7 +76,3 @@
     }
   }
 </script>
-
-<style>
-  .title {text-align: center;padding: 2rem;}
-</style>

@@ -1,5 +1,5 @@
 {
-  "name": "notebook",
+  "name": "project",
   "version": "0.1.0",
   "description": "一个本地记事的桌面应用",
   "scripts": {
@@ -7,9 +7,9 @@
     "dev": "node build/server.js",
     "app": "cross-env NODE_ENV=development electron app/",
     "build:electron": "set NODE_ELECTRON=true&&npm run build ",
-    "build:win": "npm run build:electron && electron-packager ./app/dist notebook --platform=win32 --overwrite",
-    "build:mac": "npm run build:electron && electron-packager ./app/dist notebook --platform=darwin --overwrite",
-    "build:asar": "npm run build:electron && asar pack ./app/dist notebook.asar"
+    "build:win": "npm run build:electron && electron-packager ./app/dist project --platform=win32 --overwrite",
+    "build:mac": "npm run build:electron && electron-packager ./app/dist project --platform=darwin --overwrite",
+    "build:asar": "npm run build:electron && asar pack ./app/dist project.asar"
   },
   "author": "魏自东",
   "license": "MIT",

@@ -71,7 +71,7 @@
               return startTime >= this.page.date[0] && startTime <= this.page.date[1]
           }
           return true
-        }).filter(param).slice(this.page.start,this.page.end).orderBy(['startTime', 'id'], ['desc', 'asc']).value()
+        }).filter(param).slice(this.page.start,this.page.end).orderBy(['startTime', 'id'], ['asc', 'asc']).value()
         this.list = [...data];
         console.log(param)
         console.log(this.page)
@@ -117,14 +117,14 @@
 <style>
   .search{
     text-align:left;padding:5px;
-  .el-input-group{
-    width: 250px;
-  .el-input-group__prepend{color: #111}
-  }
+    .el-input-group{
+      width: 250px;
+      .el-input-group__prepend{color: #111}
+    }
   }
   .my-pagination{padding: 5px;text-align: center}
   .el-table {
     width: 100%;
-  th,td {text-align: center !important;}
+    th,td {text-align: center !important;}
   }
 </style>

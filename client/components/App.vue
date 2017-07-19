@@ -8,7 +8,9 @@
         <el-menu-item index="/list/2">已完结</el-menu-item>
       </el-submenu>
     </el-menu>
-    <router-view></router-view>
+    <transition name="data" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -25,4 +27,15 @@
 <style>
   body {margin: 0;font-size: 2rem;font-family: -apple-system, BlinkMacSystemFont,'avenir next', avenir,helvetica, 'helvetica neue',Ubuntu,'segoe ui', arial,sans-serif;}
   .page {padding: 5px}
+  .title {text-align: center;padding: 2rem;}
+  .data-enter-active, .data-leave {
+    transition: all 1s ease;
+    opacity: 1;
+    transform: scale(1);
+  }
+  .data-enter, .data-leave-active {
+    transition: all 1s ease;
+    opacity: 0;
+    transform: scale(0.2);
+  }
 </style>

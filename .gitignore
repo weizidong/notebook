@@ -2,7 +2,7 @@ node_modules
 *.log
 .DS_Store
 .idea/
-notebook-win32-x64/
+project-win32-x64/
 app/dist
 DB
 file
