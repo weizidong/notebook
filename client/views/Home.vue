@@ -1,18 +1,12 @@
 <template>
   <div class="page">
-    <counter></counter>
-    <p>
-      To get started, edit files in <code>./client</code> and save.
-    </p>
+   主页
   </div>
 </template>
 
 <script>
-import Counter from 'components/Counter'
-
-export default {
-  components: {
-    Counter
+  export default {
+    components: {
+    }
   }
-}
 </script>

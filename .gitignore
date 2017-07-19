@@ -4,3 +4,5 @@ node_modules
 .idea/
 notebook-win32-x64/
 app/dist
+DB
+file
